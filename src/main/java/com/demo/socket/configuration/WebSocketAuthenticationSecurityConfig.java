@@ -1,6 +1,7 @@
 package com.demo.socket.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,6 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class WebSocketAuthenticationSecurityConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Autowired
     private AuthChannelInterceptorAdapter authChannelInterceptorAdapter;
 
     @Override
@@ -22,7 +24,7 @@ public class WebSocketAuthenticationSecurityConfig implements WebSocketMessageBr
 
     @Override
     public void configureClientInboundChannel(final ChannelRegistration registration) {
-        registration.setInterceptors(authChannelInterceptorAdapter);
+        registration.interceptors(authChannelInterceptorAdapter);
     }
 
 }

@@ -18,7 +18,7 @@ public class ChatBotTimeNotifier {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @Scheduled(fixedDelay = 3000)
+//    @Scheduled(fixedDelay = 3000)
     public void publishUpdates() {
         Response payload = new Response("Hello! Local time is: " + LocalTime.now());
         log.info("ScheduledMessage {}", payload);

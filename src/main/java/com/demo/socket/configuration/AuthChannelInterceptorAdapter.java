@@ -24,7 +24,7 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
     public Message<?> preSend(final Message<?> message, final MessageChannel channel) throws AuthenticationException {
         final StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if (StompCommand.CONNECT == accessor.getCommand()) {
+        if ((StompCommand.CONNECT == accessor.getCommand())) {
             final String username = accessor.getFirstNativeHeader(USERNAME_HEADER);
             final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER);
 

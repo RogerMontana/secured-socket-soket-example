@@ -14,6 +14,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/app").permitAll()
+                .and().authorizeRequests().antMatchers("/greeting-websocket/**").permitAll()
+                .and().authorizeRequests().antMatchers("/*").permitAll()
+                .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
                 .anyRequest().denyAll();
     }
 }
