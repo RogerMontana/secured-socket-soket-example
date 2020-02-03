@@ -22,9 +22,9 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(final Message<?> message, final MessageChannel channel) throws AuthenticationException {
-        final StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+        StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if ((StompCommand.CONNECT == accessor.getCommand())) {
+        if (isCommand(accessor, StompCommand.CONNECT) || (isCommand(accessor, StompCommand.SUBSCRIBE))) {
             final String username = accessor.getFirstNativeHeader(USERNAME_HEADER);
             final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER);
 
@@ -33,5 +33,9 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
             accessor.setUser(user);
         }
         return message;
+    }
+
+    private boolean isCommand(StompHeaderAccessor accessor, StompCommand connect) {
+        return connect == accessor.getCommand();
     }
 }

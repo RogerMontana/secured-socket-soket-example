@@ -10,11 +10,11 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
-@Order(Ordered.HIGHEST_PRECEDENCE + 99)
+@Order(Ordered.HIGHEST_PRECEDENCE + 99) //just work around for Proper Configuration during context start-up
 @RequiredArgsConstructor
 public class WebSocketAuthenticationSecurityConfig implements WebSocketMessageBrokerConfigurer {
 
-    @Autowired
+    @Autowired //to avoid npe need to be checked why I need that
     private AuthChannelInterceptorAdapter authChannelInterceptorAdapter;
 
     @Override

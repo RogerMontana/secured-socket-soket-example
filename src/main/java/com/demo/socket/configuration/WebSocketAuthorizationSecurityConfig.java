@@ -9,12 +9,14 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 public class WebSocketAuthorizationSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
     @Override
     protected void configureInbound(final MessageSecurityMetadataSourceRegistry messages) {
-        // You can customize your authorization mapping here.
+        // TODO [Messaging Security] customize your authorization mapping here.
         messages
                 // message types other than MESSAGE and SUBSCRIBE
                 .nullDestMatcher().authenticated()
-                // matches any destination that starts with /rooms/
-                .simpDestMatchers("/topic/**").authenticated()
+                // matches any destination that need to be secured
+                .simpDestMatchers("/user/queue/topic/**").authenticated()
+                .simpDestMatchers("/queue/topic/**").authenticated()
+                .simpDestMatchers("/app/**").authenticated()
                 // (i.e. cannot send messages directly to /topic/, /queue/)
                 // (i.e. cannot subscribe to /topic/messages/* to get messages sent to
                 // /topic/messages-user<id>)
