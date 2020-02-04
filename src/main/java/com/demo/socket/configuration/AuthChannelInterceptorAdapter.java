@@ -12,11 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import static com.demo.socket.constant.SecurityConst.PASSWORD_HEADER;
+import static com.demo.socket.constant.SecurityConst.USERNAME_HEADER;
+
 @Component
 @RequiredArgsConstructor
 public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
-    private static final String USERNAME_HEADER = "login";
-    private static final String PASSWORD_HEADER = "passcode";
 
     private final WebSocketAuthenticatorService webSocketAuthenticatorService;
 
@@ -24,9 +25,9 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
     public Message<?> preSend(final Message<?> message, final MessageChannel channel) throws AuthenticationException {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if (isCommand(accessor, StompCommand.CONNECT) || (isCommand(accessor, StompCommand.SUBSCRIBE))) {
-            final String username = accessor.getFirstNativeHeader(USERNAME_HEADER);
-            final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER);
+        if (isCommand(accessor, StompCommand.CONNECT) || isCommand(accessor, StompCommand.SEND)) {
+            final String username = accessor.getFirstNativeHeader(USERNAME_HEADER.getValue());
+            final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER.getValue());
 
             final UsernamePasswordAuthenticationToken user = webSocketAuthenticatorService.getAuthenticatedOrFail(username, password);
 

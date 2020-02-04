@@ -1,4 +1,5 @@
 var stompClient = null;
+var headers = {login:"user",passcode:"passwd"};
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -15,7 +16,7 @@ function setConnected(connected) {
 function connect() {
     var socket = new SockJS('/greeting-websocket');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect(headers, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/user/queue/topic/greetings', function (greeting) {
@@ -33,7 +34,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {'login':"user",'passcode':"passwd"}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/hello", headers, JSON.stringify({'name': $("#name").val()}));
 }
 
 function showGreeting(message) {
