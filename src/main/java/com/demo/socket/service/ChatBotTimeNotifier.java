@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
@@ -22,7 +24,10 @@ public class ChatBotTimeNotifier {
     public void publishUpdates() {
         Response payload = new Response("Hello! Local time is: " + LocalTime.now());
         log.info("ScheduledMessage {}", payload);
-        simpMessagingTemplate.convertAndSend(TopicNames.TOPIC.getValue(), payload);
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("login", "user");
+        headers.put("passcode", "passwd");
+        simpMessagingTemplate.convertAndSend(TopicNames.TOPIC.getValue(), payload, headers);
     }
 
 }

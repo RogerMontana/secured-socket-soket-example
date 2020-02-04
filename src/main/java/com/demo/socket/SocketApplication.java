@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 @EnableWebSocketMessageBroker
 public class SocketApplication {
 
