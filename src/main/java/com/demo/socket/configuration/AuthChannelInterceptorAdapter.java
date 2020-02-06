@@ -2,6 +2,8 @@ package com.demo.socket.configuration;
 
 import com.demo.socket.user.WebSocketAuthenticatorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -12,11 +14,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 import static com.demo.socket.constant.SecurityConst.PASSWORD_HEADER;
 import static com.demo.socket.constant.SecurityConst.USERNAME_HEADER;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
 
     private final WebSocketAuthenticatorService webSocketAuthenticatorService;
@@ -29,7 +34,11 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
             final String username = accessor.getFirstNativeHeader(USERNAME_HEADER.getValue());
             final String password = accessor.getFirstNativeHeader(PASSWORD_HEADER.getValue());
 
-            final UsernamePasswordAuthenticationToken user = webSocketAuthenticatorService.getAuthenticatedOrFail(username, password);
+            Map<String, Object> authorization = accessor.getSessionAttributes();
+
+            String token = (String) authorization.get("token");
+            log.info("authorization attributes are {} and have token like {}", authorization, token);
+            final UsernamePasswordAuthenticationToken user = webSocketAuthenticatorService.getAuthenticatedOrFail(username, password, token);
 
             accessor.setUser(user);
         }

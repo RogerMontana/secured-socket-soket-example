@@ -14,8 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class WebSocketAuthenticationSecurityConfig implements WebSocketMessageBrokerConfigurer {
 
-    @Autowired //to avoid npe need to be checked why I need that
-    private AuthChannelInterceptorAdapter authChannelInterceptorAdapter;
+    private final AuthChannelInterceptorAdapter authChannelInterceptorAdapter;
 
     @Override
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
