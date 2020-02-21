@@ -54,25 +54,24 @@ Common Connection flow
      
 security components diagram (intreception security flow from http to socket channel):
 
-                          ┌─────────────┐          ┌───────────────────────────────┐               ┌─────────────────────────────┐          ┌─────────────────────────────┐
-                          │     UI      │          │HttpSessionHandshakeInterceptor│               │AuthChannelInterceptorAdapter│          │WebSocketAuthenticatorService│
-                          └──────┬──────┘          └───────────────┬───────────────┘               └──────────────┬──────────────┘          └──────────────┬──────────────┘
-                                 │                                 │                                              │                                        │               
-                                 |                                 │                                              │                                        │               
-                                 │                                 │                                              │                                        │               
-                                 │    sending request over http    │                                              │                                        │               
-                                 │ ────────────────────────────────>                                              │                                        │               
-                                 │                                 │                                              │                                        │               
-                                 │                                 │────┐                                                                                  │               
-                                 │                                 │    │ get auth header and put in socket channel                                        │               
-                                 │                                 │<───┘                                                                                  │               
-                                 │                                 │                                              │                                        │               
-                                 │                                 │     intrecept and getSessionAttributes()     │                                        │               
-                                 │                                 │ ─────────────────────────────────────────────>                                        │               
-                                 │                                 │                                              │                                        │               
-                                 │                                 │                                              │  validate token allow esteblish socket │               
-                                 │                                 │                                              │ ───────────────────────────────────────>               
-                          ┌──────┴──────┐          ┌───────────────┴───────────────┐               ┌──────────────┴──────────────┐          ┌──────────────┴──────────────┐
-                          │     UI      │          │HttpSessionHandshakeInterceptor│               │AuthChannelInterceptorAdapter│          │WebSocketAuthenticatorService│
-                          └─────────────┘          └───────────────────────────────┘               └─────────────────────────────┘          └─────────────────────────────┘
-
+    ┌─────────────┐          ┌───────────────────────────────┐               ┌─────────────────────────────┐          ┌─────────────────────────────┐
+    │     UI      │          │HttpSessionHandshakeInterceptor│               │AuthChannelInterceptorAdapter│          │WebSocketAuthenticatorService│
+    └──────┬──────┘          └───────────────┬───────────────┘               └──────────────┬──────────────┘          └──────────────┬──────────────┘
+           │                                 │                                              │                                        │               
+           |                                 │                                              │                                        │               
+           │                                 │                                              │                                        │               
+           │    sending request over http    │                                              │                                        │               
+           │ ────────────────────────────────>                                              │                                        │               
+           │                                 │                                              │                                        │               
+           │                                 │────┐                                                                                  │               
+           │                                 │    │ get auth header and put in socket channel                                        │               
+           │                                 │<───┘                                                                                  │               
+           │                                 │                                              │                                        │               
+           │                                 │     intrecept and getSessionAttributes()     │                                        │               
+           │                                 │ ─────────────────────────────────────────────>                                        │               
+           │                                 │                                              │                                        │               
+           │                                 │                                              │  validate token allow esteblish socket │               
+           │                                 │                                              │ ───────────────────────────────────────>               
+    ┌──────┴──────┐          ┌───────────────┴───────────────┐               ┌──────────────┴──────────────┐          ┌──────────────┴──────────────┐
+    │     UI      │          │HttpSessionHandshakeInterceptor│               │AuthChannelInterceptorAdapter│          │WebSocketAuthenticatorService│
+    └─────────────┘          └───────────────────────────────┘               └─────────────────────────────┘          └─────────────────────────────┘
